@@ -36,11 +36,13 @@ if __name__ == '__main__':
     archives = get_archives("arthurpc02")
     print(f"Found {len(archives)} archives.")
 
-    # fetch the most recent month:
-    latest = archives[-1]
-    print(f"fetching games from {latest}")
-    games = get_games(latest)
-    print(f"total games: {len(games)}.")
+    # fetch data from all months:
+    for monthly_archive in archives:
+        split_date = monthly_archive.split('/')
+        print(f"fetching games from {split_date[-1]}/{split_date[-2]}")
+        monthly_games = get_games(monthly_archive)
+        print(f"  Total games: {len(monthly_games)}.")
 
-    for g in games:
-        print(f"{g["white"]["username"]}[{g["white"]["result"]}] vs {g["black"]["username"]}[{g["black"]["result"]}]: {g["url"]}")
+        print("    Games' records:")
+        for g in monthly_games:
+            print(f"      {g["white"]["username"]}[{g["white"]["result"]}] vs {g["black"]["username"]}[{g["black"]["result"]}]: {g["url"]}")
