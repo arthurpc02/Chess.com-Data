@@ -16,31 +16,28 @@ HEADERS = {
     "User-Agent": "MyChessApp/0.1 (contact: arthurpc02@gmail.com)"
 }
 
-
 def get_archives(username):
     url = f"https://api.chess.com/pub/player/{username}/games/archives"
     response = requests.get(url, headers=HEADERS)
     response.raise_for_status()
     data = response.json()
-    print(json.dumps(data, indent=2))
+    # print(json.dumps(data, indent=2))
     return data["archives"]
 
 
 def get_games(archive_url):
     response = requests.get(archive_url, headers=HEADERS)
     response.raise_for_status()
-    print(json.dumps(response.json(), indent=2))
+    # print(json.dumps(response.json(), indent=2))
     return response.json()["games"]
 
 
 if __name__ == '__main__':
-    # get_games_by_month_year('arthurpc02', '11', '2023')
-
     archives = get_archives("arthurpc02")
     print(f"Found {len(archives)} archives.")
 
     # fetch the most recent month:
-    latest = archives[-2]
+    latest = archives[-1]
     print(f"fetching games from {latest}")
     games = get_games(latest)
     print(f"total games: {len(games)}.")
