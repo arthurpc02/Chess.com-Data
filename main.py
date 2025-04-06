@@ -8,6 +8,7 @@ or
 https://api.chess.com/pub/player/{username}/games/archives
 
 """
+import time
 
 import requests
 import json
@@ -33,6 +34,8 @@ def get_games(archive_url):
 
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
+
     archives = get_archives("arthurpc02")
     print(f"Found {len(archives)} archives.")
 
@@ -46,3 +49,8 @@ if __name__ == '__main__':
         print("    Games' records:")
         for g in monthly_games:
             print(f"      {g["white"]["username"]}[{g["white"]["result"]}] vs {g["black"]["username"]}[{g["black"]["result"]}]: {g["url"]}")
+
+    end_time = time.perf_counter()
+
+    print("##########")
+    print(f"Total execution time: {end_time-start_time:.2f} seconds.")
