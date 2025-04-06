@@ -33,24 +33,27 @@ def get_games(archive_url):
     return response.json()["games"]
 
 
+def get_all_games_from_all_months(all_archives: list[str]):
+    all_games = []
+    for archive in all_archives:
+        games_monthly = get_games(archive)
+        for games in games_monthly:
+            all_games.append(games)
+    return all_games
+
+
 if __name__ == '__main__':
     start_time = time.perf_counter()
 
     archives = get_archives("arthurpc02")
     print(f"Found {len(archives)} archives.")
 
-    # fetch data from all months:
-    for monthly_archive in archives:
-        split_date = monthly_archive.split('/')
-        print(f"fetching games from {split_date[-1]}/{split_date[-2]}")
-        monthly_games = get_games(monthly_archive)
-        print(f"  Total games: {len(monthly_games)}.")
-
-        print("    Games' records:")
-        for g in monthly_games:
-            print(f"      {g["white"]["username"]}[{g["white"]["result"]}] vs {g["black"]["username"]}[{g["black"]["result"]}]: {g["url"]}")
-
+    all_games = get_all_games_from_all_months(archives)
     end_time = time.perf_counter()
 
-    print("##########")
-    print(f"Total execution time: {end_time-start_time:.2f} seconds.")
+    for g in all_games:
+        print(f"{g["white"]["username"]}[{g["white"]["result"]}] vs {g["black"]["username"]}[{g["black"]["result"]}]: {g["url"]}")
+
+
+    print("\n##########")
+    print(f"I/O tasks total time: {end_time-start_time:.2f} seconds.")
