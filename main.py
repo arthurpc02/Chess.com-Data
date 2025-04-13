@@ -50,12 +50,12 @@ async def main():
         print(f"Found {len(archives)} archives.")
         all_games = await get_all_games_from_all_months(session, archives)
 
-    end_time = time.perf_counter()
 
     for g in all_games:
         print(f"{g["white"]["username"]}[{g["white"]["result"]}] vs {g["black"]["username"]}[{g["black"]["result"]}]: {g["url"]}")
 
     print("\n##########")
+    end_time = time.perf_counter()
     print(f"I/O tasks total time: {end_time-start_time:.2f} seconds.")
 
 
