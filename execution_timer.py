@@ -1,21 +1,30 @@
 import time
 
-class ExecutionTimer:
-    def __init__(self):
-        pass
+# def timer(function):
+#     def f(*args, **kwargs):
+#         start = time.perf_counter()
+#         rv = function(*args, **kwargs)
+#         end = time.perf_counter()
+#         print(f"**{function.__name__}** took {end - start:.6f} seconds to run.")
+#         return rv
+#     return f()
 
-    def measure_execution_time(self, function):
-        start = time.perf_counter()
-        function()
-        end = time.perf_counter()
-        print(f"{function.__name__} took {end - start:.6f} seconds to run.")
+def timer_simple(func, *args):
+    start = time.perf_counter()
+    func(*args)
+    end = time.perf_counter()
+    print(f"**{func.__name__}** took {end - start:.6f} seconds")
 
 
 def test_function():
     time.sleep(0.5)
 
-if __name__ == "__main__":
-    perf = ExecutionTimer()
 
-    perf.measure_execution_time(test_function)
-    pass
+def test_add(x, y=10):
+    return x+y
+
+
+if __name__ == "__main__":
+    timer_simple(test_function)
+    timer_simple(test_add,3,4)
+
