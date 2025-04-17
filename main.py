@@ -15,6 +15,8 @@ import json
 import asyncio
 import aiohttp
 
+from execution_timer import timer
+
 HEADERS = {
     "User-Agent": "MyChessApp/0.1 (contact: arthurpc02@gmail.com)"
 }
@@ -41,12 +43,12 @@ async def get_all_games_from_all_months(session, all_archives: list[str]):
     all_monthly_games = await asyncio.gather(*tasks)
     return [game for monthly in all_monthly_games for game in monthly]
 
-
+@timer
 async def main():
     start_time = time.perf_counter()
 
     async with aiohttp.ClientSession() as session:
-        archives = await get_archives(session, "arthurpc02")
+        archives = await get_archives(session, "Tricky_Dicky")
         print(f"Found {len(archives)} archives.")
         all_games = await get_all_games_from_all_months(session, archives)
 
