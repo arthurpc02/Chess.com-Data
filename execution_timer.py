@@ -5,10 +5,21 @@ def timer(function):
         start = time.perf_counter()
         rv = function(*args, **kwargs)
         end = time.perf_counter()
+        print("#########")
         print(f"**{function.__name__}** took {end - start:.6f} seconds to run.")
         return rv
     return f
 
+
+def async_timer(func):
+    async def f(*args, **kwargs):
+        start = time.perf_counter()
+        result = await func(*args, **kwargs)
+        end = time.perf_counter()
+        print("#########")
+        print(f"**{func.__name__}** took {end - start:.6f} seconds to run.")
+        return result
+    return f
 
 @timer
 def test_function():
